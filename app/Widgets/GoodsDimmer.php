@@ -7,7 +7,7 @@ use TCG\Voyager\Facades\Voyager;
 use TCG\Voyager\Widgets\BaseDimmer;
 use App\Good;
 
-class Goods extends BaseDimmer
+class GoodsDimmer extends BaseDimmer
 {
     /**
      * The configuration array.
@@ -28,9 +28,9 @@ class Goods extends BaseDimmer
         return view('voyager::dimmer', array_merge($this->config, [
             'icon'   => 'voyager-pen',
             'title'  => "{$count} {$string}",
-            'text'   => __('voyager::dimmer.user_text', ['count' => $count, 'string' => Str::lower($string)]),
+            'text'   => "Click on button below to view all {$count} goods",
             'button' => [
-                'text' => 'Goods',
+                'text' => 'View all goods',
                 'link' => route('voyager.goods.index'),
             ],
             'image' => voyager_asset('images/widget-backgrounds/03.jpg'),
