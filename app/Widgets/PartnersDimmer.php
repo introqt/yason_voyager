@@ -28,7 +28,7 @@ class PartnersDimmer extends BaseDimmer
         return view('voyager::dimmer', array_merge($this->config, [
             'icon'   => 'voyager-people',
             'title'  => "{$count} {$string}",
-            'text'   => "Click on button below to view all {$count} partners",
+            'text'   => "",
             'button' => [
                 'text' => 'View all of our partners',
                 'link' => route('voyager.goods.index'),

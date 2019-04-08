@@ -28,7 +28,7 @@ class GoodsDimmer extends BaseDimmer
         return view('voyager::dimmer', array_merge($this->config, [
             'icon'   => 'voyager-pen',
             'title'  => "{$count} {$string}",
-            'text'   => "Click on button below to view all {$count} goods",
+            'text'   => "",
             'button' => [
                 'text' => 'View all goods',
                 'link' => route('voyager.goods.index'),
