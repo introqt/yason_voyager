@@ -10,7 +10,7 @@ class GoodsController extends Controller
     public function showAction(Request $request)
     {
         if ($request->ajax()) {
-            return Good::select('id', 'title', 'description')->where('id', $request->id)->first();
+            return Good::select('id', 'title', 'description', 'price')->where('id', $request->id)->first();
         }
     }
 }

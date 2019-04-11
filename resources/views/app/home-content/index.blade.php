@@ -48,7 +48,7 @@
                 {{--<li><a href="/portfolio" title="Примеры наших работ">Портфолио</a></li>--}}
                 <li data-toggle="modal" data-target="#cart-modal"><a href="#"><i class="fa fa-shopping-basket"
                                                                                  aria-hidden="true"></i><span
-                                class="badge">{{ $good_count_in_cart or 0}}</span></a></li>
+                                class="badge">{{ $good_count_in_cart}}</span></a></li>
             </ul>
         </div>
     </div>
@@ -213,7 +213,9 @@
                 @foreach($work_examples as $work_example)
                     <div class="col-lg-4">
                         <div class="tilt1">
-                            <img width=100% src="{{ asset("storage/$work_example->image") }}" alt="">
+                            <img width=100% src="{{ asset("storage/$work_example->image") }}"
+                                 alt="{{ asset("storage/$work_example->name") }}"
+                                 style="max-height: 720px;">
                             <br>
                             <br>
                         </div>
@@ -225,7 +227,7 @@
     <div id="lg">
         <div class="container">
             <div class="row centered">
-                <h2>Партнеры</h2>
+                <h2>Наши партнеры</h2>
                 <br><br>
                 <?php $i = 1; $class = "col-lg-offset-1";?>
                 @foreach($partners as $partner)

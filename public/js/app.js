@@ -1,25 +1,27 @@
-var APPLICATION = {};
+const APPLICATION = {};
 
 APPLICATION.url = window.location.hostname + ':' + window.location.port;
 APPLICATION.currentUrl = window.location.href;
 APPLICATION.protocol = window.location.protocol;
 
-APPLICATION.showModal = {               // init
+APPLICATION.showModal = {
   init: function() {
     $('.tilt').click(function() {
-      fullPath = 'http://' + APPLICATION.url + '/get-description'; // бд
+      let fullPath = 'http://' + APPLICATION.url + '/get-description';
       $.ajax({
             url: fullPath,
             type: 'GET',
             data: {
               id: $(this).attr('id'),
-            }, // id и csrf-token
+            },
             success: function(result) {
               $('#good-modal .modal-title').text(result.title);
               $('#good-modal .modal-body>p').text(result.description);
+              $('#good-modal .modal-body>p').
+                  append(`<hr><p>Стоимость: ${result.price} руб.</p>`);
               $('.modal-footer .btn-success').attr('data-id', result.id);
             },
-          }
+          },
       );
     });
   },
@@ -29,8 +31,7 @@ APPLICATION.showModal.init();
 APPLICATION.addToCart = {
   init: function() {
     $('#good-modal .btn-success').click(function() {
-      console.log($(this).attr('data-id'));
-      fullPath = 'http://' + APPLICATION.url + '/add-to-cart';
+      let fullPath = 'http://' + APPLICATION.url + '/add-to-cart';
       $.ajax({
             url: fullPath,
             type: 'POST',
@@ -39,13 +40,19 @@ APPLICATION.addToCart = {
               _token: $('meta[name="csrf-token"]').attr('content'),
             },
             success: function(result) {
-              console.log(result);
               $('#success-modal').modal('toggle');
               $('#success-modal .modal-content p').
-                  text('Вы успешно добавили ' + result.good.title + ' в корзину!');
+                  text(`
+          Вы;
+          успешно;
+          добавили;
+          ${result.good.title}
+          в;
+          корзину;
+          !`);
               $('span.badge').text(result.good_count_in_cart);
             },
-          }
+          },
       );
     });
   },
@@ -55,34 +62,39 @@ APPLICATION.addToCart.init();
 APPLICATION.openCart = {
   init: function() {
     $('li[data-target="#cart-modal"]').click(function() {
-      fullPath = 'http://' + APPLICATION.url + '/show-cart';
+      let fullPath = 'http://' + APPLICATION.url + '/show-cart';
       $.ajax({
             url: fullPath,
             type: 'POST',
             data: {_token: $('meta[name="csrf-token"]').attr('content')},
             success: function(result) {
-              $('#cart-modal .modal-body p').text('Ваши товары:');
-              $('#cart-modal .modal-body p').append('<ul>');
-              console.log(result);
+              const p = $('#cart-modal .modal-body p');
+              let sum = 0;
+              p.text('Ваши товары:');
+              p.append('<ul class="cart_list">');
               $.each(result, function(key, value) {
-                console.log(value);
-                $('#cart-modal .modal-body p').
-                    append('<li>' + value.title + ' ' + value.price + ' руб.' +
-                        ' - ' + value.cnt + 'шт.</li>');
+                sum = sum + value.price * value.cnt;
+                $('#cart-modal .cart_list').
+                    append(
+                        `<li> ${value.title} по цене ${value.price} руб. – ${value.cnt} eд. </li>`);
               });
-              $('#cart-modal .modal-body p').append('</ul>');
+              p.append('</ul>');
+              p.append(`<b>Итого: ${sum} руб.</b>`);
             },
-          }
-      );
-    });
+          },
+      )
+      ;
+    })
+    ;
   },
-};
+}
+;
 APPLICATION.openCart.init();
 /////////////////////////////////
 APPLICATION.sendOrder = {
   init: function() {
     $('#cart-modal-step-2 .btn-success').click(function() {
-      fullPath = 'http://' + APPLICATION.url + '/send-order';
+      let fullPath = 'http://' + APPLICATION.url + '/send-order';
       $.ajax({
             url: fullPath,
             type: 'POST',
@@ -92,10 +104,10 @@ APPLICATION.sendOrder = {
               email: $('#email').val(),
               social: $('#social').val(),
             },
-            success: function(result) {
+            success: function() {
               location.reload();
             },
-          }
+          },
       );
     });
   },
@@ -105,15 +117,15 @@ APPLICATION.sendOrder.init();
 APPLICATION.deleteCart = {
   init: function() {
     $('#cart-modal .btn-danger').click(function() {
-      fullPath = 'http://' + APPLICATION.url + '/delete-cart';
+      let fullPath = 'http://' + APPLICATION.url + '/delete-cart';
       $.ajax({
             url: fullPath,
             type: 'POST',
             data: {_token: $('meta[name="csrf-token"]').attr('content')},
-            success: function(result) {
+            success: function() {
               location.reload();
             },
-          }
+          },
       );
     });
   },
